@@ -1,4 +1,4 @@
-package java_reflect_examples;
+package Test;
 
 import static org.junit.Assert.assertTrue;
 
