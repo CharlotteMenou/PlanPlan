@@ -7,8 +7,8 @@ public class YumlModel implements YumlElement {
     private List<YumlClass> classes = new ArrayList<>();
     private List<YumlAssoc> associations = new ArrayList<>();
 
-    public void addClass(YumlClass clazz) {
-        classes.add(clazz);
+    public void addClass(YumlClass yumlClass) {
+        classes.add(yumlClass);
     }
 
     public void addAssociation(YumlAssoc association) {

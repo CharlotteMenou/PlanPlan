@@ -5,4 +5,4 @@
 [Equipment|-name:String;-type:String;|+getName():String;+getType():String;]
 [≪IBookable≫;Bookable|+book():void;]
 [Room]place->[Place]
-[Room]^[BaseRoom] 
+[Room]^[BaseRoom]

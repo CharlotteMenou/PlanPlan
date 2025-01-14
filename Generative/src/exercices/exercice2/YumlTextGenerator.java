@@ -11,8 +11,8 @@ public class YumlTextGenerator implements YumlVisitor {
 
     @Override
     public void visit(YumlModel model) {
-        for (YumlClass clazz : model.getClasses()) {
-            clazz.accept(this);
+        for (YumlClass yumlClass : model.getClasses()) {
+            yumlClass.accept(this);
             builder.append("\n");
         }
 
@@ -23,33 +23,33 @@ public class YumlTextGenerator implements YumlVisitor {
     }
 
     @Override
-    public void visit(YumlClass clazz) {
+    public void visit(YumlClass yumlClass) {
         builder.append("[");
 
-        if (clazz.getInterfaceName() != null) {
-            builder.append("≪").append(clazz.getInterfaceName()).append("≫;");
+        if (yumlClass.getInterfaceName() != null) {
+            builder.append("≪").append(yumlClass.getInterfaceName()).append("≫;");
         }
 
-        builder.append(clazz.getName());
+        builder.append(yumlClass.getName());
 
-        if (!clazz.getAttributes().isEmpty()) {
+        if (!yumlClass.getAttributes().isEmpty()) {
             builder.append("|");
-            for (YumlAttribute attr : clazz.getAttributes()) {
+            for (YumlAttribute attr : yumlClass.getAttributes()) {
                 attr.accept(this);
                 builder.append(";");
             }
         }
 
-        if (!clazz.getMethods().isEmpty()) {
+        if (!yumlClass.getMethods().isEmpty()) {
             builder.append("|");
-            for (YumlMethod method : clazz.getMethods()) {
+            for (YumlMethod method : yumlClass.getMethods()) {
                 method.accept(this);
                 builder.append(";");
             }
         }
 
-        if (clazz.getBackgroundColor() != null) {
-            builder.append(" {bg:").append(clazz.getBackgroundColor()).append("}");
+        if (yumlClass.getBackgroundColor() != null) {
+            builder.append(" {bg:").append(yumlClass.getBackgroundColor()).append("}");
         }
 
         builder.append("]");
