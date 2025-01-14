@@ -1,10 +1,11 @@
 package exercices.exercice2;
 
-public class YumlParameter implements YumlElement {
+// Classe Equipment pour tester la composition
+class Equipment {
     private String name;
     private String type;
 
-    public YumlParameter(String name, String type) {
+    public Equipment(String name, String type) {
         this.name = name;
         this.type = type;
     }
@@ -15,10 +16,5 @@ public class YumlParameter implements YumlElement {
 
     public String getType() {
         return type;
-    }
-
-    @Override
-    public void accept(YumlVisitor visitor) {
-        visitor.visit(this);
     }
 }

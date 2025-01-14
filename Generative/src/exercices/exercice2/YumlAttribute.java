@@ -1,6 +1,6 @@
 package exercices.exercice2;
 
-class YumlAttribute implements YumlElement {
+public class YumlAttribute implements YumlElement {
     private String visibility;
     private String name;
     private String type;
@@ -28,4 +28,3 @@ class YumlAttribute implements YumlElement {
         visitor.visit(this);
     }
 }
-

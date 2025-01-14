@@ -3,7 +3,7 @@ package exercices.exercice2;
 import java.util.ArrayList;
 import java.util.List;
 
-class YumlMethod implements YumlElement {
+public class YumlMethod implements YumlElement {
     private String visibility;
     private String name;
     private List<YumlParameter> parameters = new ArrayList<>();

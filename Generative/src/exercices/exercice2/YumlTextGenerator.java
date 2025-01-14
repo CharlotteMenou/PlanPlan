@@ -1,36 +1,37 @@
 package exercices.exercice2;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class YumlTextGenerator implements YumlVisitor {
-    private StringBuilder builder;
+    private StringBuilder builder = new StringBuilder();
 
     public YumlTextGenerator() {
-        builder = new StringBuilder();
-        // Ajout de la directive de type au début
         builder.append("// {type:class}\n");
     }
 
     @Override
     public void visit(YumlModel model) {
-        // Visite chaque classe
         for (YumlClass clazz : model.getClasses()) {
             clazz.accept(this);
             builder.append("\n");
         }
-        // Visite chaque relation
-        for (YumlRelation relation : model.getRelations()) {
-            relation.accept(this);
+
+        for (YumlAssoc assoc : model.getAssociations()) {
+            assoc.accept(this);
             builder.append("\n");
         }
     }
 
     @Override
     public void visit(YumlClass clazz) {
-        builder.append("[").append(clazz.getName());
+        builder.append("[");
 
-        // Ajoute les attributs
+        if (clazz.getInterfaceName() != null) {
+            builder.append("≪").append(clazz.getInterfaceName()).append("≫;");
+        }
+
+        builder.append(clazz.getName());
+
         if (!clazz.getAttributes().isEmpty()) {
             builder.append("|");
             for (YumlAttribute attr : clazz.getAttributes()) {
@@ -39,7 +40,6 @@ public class YumlTextGenerator implements YumlVisitor {
             }
         }
 
-        // Ajoute les méthodes
         if (!clazz.getMethods().isEmpty()) {
             builder.append("|");
             for (YumlMethod method : clazz.getMethods()) {
@@ -48,7 +48,32 @@ public class YumlTextGenerator implements YumlVisitor {
             }
         }
 
+        if (clazz.getBackgroundColor() != null) {
+            builder.append(" {bg:").append(clazz.getBackgroundColor()).append("}");
+        }
+
         builder.append("]");
+    }
+
+    @Override
+    public void visit(YumlAssoc association) {
+        builder.append("[").append(association.getSource().getName()).append("]");
+
+        if (association.getSourceCardinality() != null) {
+            builder.append(association.getSourceCardinality());
+        }
+
+        if (association.getLabel() != null) {
+            builder.append(association.getLabel());
+        }
+
+        builder.append(association.getAssociationSymbol());
+
+        if (association.getTargetCardinality() != null) {
+            builder.append(association.getTargetCardinality());
+        }
+
+        builder.append("[").append(association.getTarget().getName()).append("]");
     }
 
     @Override
@@ -65,7 +90,6 @@ public class YumlTextGenerator implements YumlVisitor {
                 .append(method.getName())
                 .append("(");
 
-        // Ajoute les paramètres
         List<YumlParameter> params = method.getParameters();
         for (int i = 0; i < params.size(); i++) {
             if (i > 0) builder.append(",");
@@ -78,24 +102,8 @@ public class YumlTextGenerator implements YumlVisitor {
 
     @Override
     public void visit(YumlParameter parameter) {
+        // Pour les paramètres, on affiche uniquement leur type
         builder.append(parameter.getType());
-    }
-
-    @Override
-    public void visit(YumlRelation relation) {
-        builder.append("[").append(relation.getSource().getName()).append("]");
-
-        if (relation.getLabel() != null) {
-            builder.append(relation.getLabel());
-        }
-
-        builder.append("->");
-
-        if (relation.getTargetMultiplicity() != null) {
-            builder.append(relation.getTargetMultiplicity());
-        }
-
-        builder.append("[").append(relation.getTarget().getName()).append("]");
     }
 
     public String getResult() {
