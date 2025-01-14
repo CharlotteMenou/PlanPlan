@@ -1,10 +1,16 @@
 package exercices.exercice2;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         // Crée les objets
         Place place = new Place("Place", "Address");
-        Room room = new Room(place, "Room", 10);
+        ArrayList fenetre = new ArrayList<String>();
+        fenetre.addAll(List.of(new String[]{"Chaîne 1", "Chaîne 2", "Chaîne 3"}));
+        Room room = new Room(place, "Room", 10,fenetre);
 
         // Construit le modèle
         JavaToYumlModelBuilder builder = new JavaToYumlModelBuilder();
