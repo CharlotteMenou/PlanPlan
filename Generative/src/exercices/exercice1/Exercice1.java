@@ -1,4 +1,4 @@
-package exercices;  // Notez la minuscule
+package exercices.exercice1;  // Notez la minuscule
 
 import java.lang.reflect.Modifier;
 
@@ -7,6 +7,13 @@ public class Exercice1 {
     }
 
     static interface innerInterf1 {
+    }
+    public interface interf1 {
+    }
+
+
+    private static interface innerInterf2{
+
     }
 
     private class Inner2 {
@@ -33,20 +40,15 @@ public class Exercice1 {
     }
 
     private static void printStructure(Class<?> cls, StringBuilder sb, String indent) {
-        // Modifiers (utilisant les patterns de ManagingClassTest)
         String modifiers = Modifier.toString(cls.getModifiers());
         if (!modifiers.isEmpty()) {
             sb.append(indent).append(modifiers).append(" ");
         }
 
-        // Type (class ou interface)
-        if (cls.isInterface()) {
-            sb.append("interface ");
-        } else {
+        if (!cls.isInterface()) {
             sb.append("class ");
         }
 
-        // Nom (utilisant getSimpleName() comme montré dans ClassAndName)
         sb.append(cls.getSimpleName());
 
         // Interfaces
