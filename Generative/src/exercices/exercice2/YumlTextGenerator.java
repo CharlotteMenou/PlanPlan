@@ -1,21 +1,25 @@
 package exercices.exercice2;
 
+import java.util.ArrayList;
 import java.util.List;
 
-class YumlTextGenerator implements YumlVisitor {
-    private StringBuilder builder = new StringBuilder();
-    private String currentClass = "";
+public class YumlTextGenerator implements YumlVisitor {
+    private StringBuilder builder;
 
-    public String getResult() {
-        return builder.toString();
+    public YumlTextGenerator() {
+        builder = new StringBuilder();
+        // Ajout de la directive de type au début
+        builder.append("// {type:class}\n");
     }
 
     @Override
     public void visit(YumlModel model) {
+        // Visite chaque classe
         for (YumlClass clazz : model.getClasses()) {
             clazz.accept(this);
             builder.append("\n");
         }
+        // Visite chaque relation
         for (YumlRelation relation : model.getRelations()) {
             relation.accept(this);
             builder.append("\n");
@@ -24,9 +28,9 @@ class YumlTextGenerator implements YumlVisitor {
 
     @Override
     public void visit(YumlClass clazz) {
-        currentClass = clazz.getName();
-        builder.append("[").append(currentClass);
+        builder.append("[").append(clazz.getName());
 
+        // Ajoute les attributs
         if (!clazz.getAttributes().isEmpty()) {
             builder.append("|");
             for (YumlAttribute attr : clazz.getAttributes()) {
@@ -35,6 +39,7 @@ class YumlTextGenerator implements YumlVisitor {
             }
         }
 
+        // Ajoute les méthodes
         if (!clazz.getMethods().isEmpty()) {
             builder.append("|");
             for (YumlMethod method : clazz.getMethods()) {
@@ -60,6 +65,7 @@ class YumlTextGenerator implements YumlVisitor {
                 .append(method.getName())
                 .append("(");
 
+        // Ajoute les paramètres
         List<YumlParameter> params = method.getParameters();
         for (int i = 0; i < params.size(); i++) {
             if (i > 0) builder.append(",");
@@ -79,28 +85,20 @@ class YumlTextGenerator implements YumlVisitor {
     public void visit(YumlRelation relation) {
         builder.append("[").append(relation.getSource().getName()).append("]");
 
-        switch (relation.getType()) {
-            case INHERITANCE:
-                builder.append("^-");
-                break;
-            case ASSOCIATION:
-                if (relation.getLabel() != null) {
-                    builder.append(relation.getLabel());
-                }
-                builder.append("->");
-                break;
-            case AGGREGATION:
-                builder.append("+->");
-                break;
-            case COMPOSITION:
-                builder.append("++->");
-                break;
+        if (relation.getLabel() != null) {
+            builder.append(relation.getLabel());
         }
+
+        builder.append("->");
 
         if (relation.getTargetMultiplicity() != null) {
             builder.append(relation.getTargetMultiplicity());
         }
 
         builder.append("[").append(relation.getTarget().getName()).append("]");
+    }
+
+    public String getResult() {
+        return builder.toString();
     }
 }

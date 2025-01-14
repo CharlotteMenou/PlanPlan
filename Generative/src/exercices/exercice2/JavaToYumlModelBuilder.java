@@ -16,7 +16,12 @@ class JavaToYumlModelBuilder {
     }
 
     private void processClass(Class<?> cls) {
-        if (processedClasses.contains(cls) || cls.isPrimitive() || cls.isArray()) {
+        if (processedClasses.contains(cls) ||
+                cls.isPrimitive() ||
+                cls.isArray() ||
+                cls.getName().startsWith("java.") ||  // Ignore JDK classes
+                cls.getName().startsWith("javax.") ||
+                cls.getName().startsWith("sun.")) {
             return;
         }
         processedClasses.add(cls);
@@ -74,7 +79,10 @@ class JavaToYumlModelBuilder {
 
     private void processRelationship(Class<?> cls, Field field) {
         Class<?> fieldType = field.getType();
-        if (!fieldType.isPrimitive() && !fieldType.isArray()) {
+        if (!fieldType.isPrimitive() && !fieldType.isArray() &&
+                !fieldType.getName().startsWith("java.") &&
+                !fieldType.getName().startsWith("javax.") &&
+                !fieldType.getName().startsWith("sun.")) {
             processClass(fieldType);
             YumlClass source = classMap.get(cls);
             YumlClass target = classMap.get(fieldType);
