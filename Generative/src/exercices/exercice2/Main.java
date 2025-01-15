@@ -1,42 +1,26 @@
 package exercices.exercice2;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
-        // Crée le builder
-        JavaToYumlBuilder builder = new JavaToYumlBuilder();
+        // Crée les objets
+        Place place = new Place("Place", "Address");
+        ArrayList fenetre = new ArrayList<String>();
+        fenetre.addAll(List.of(new String[]{"Chaîne 1", "Chaîne 2", "Chaîne 3"}));
+        Room room = new Room(place, "Room", 10,fenetre);
 
-        // Construit le modèle avec toutes nos classes
-        YumlModel model = builder.buildModel(
-                Room.class,
-                Place.class,
-                Equipment.class,
-                BaseRoom.class,
-                Bookable.class
-        );
+        // Construit le modèle
+        JavaToYumlModelBuilder builder = new JavaToYumlModelBuilder();
+        YumlModel model = builder.buildModel(Room.class, Place.class);
 
-        // Génère le texte YUML
+        // Génère le texte YUML avec la directive de type
         YumlTextGenerator generator = new YumlTextGenerator();
         model.accept(generator);
 
         // Affiche le résultat
-        System.out.println("=== diagramme YUML ===");
         System.out.println(generator.getResult());
-
-        // Test de création d'objets
-        Place place = new Place("UBO", "19 rue du centre");
-        Room room = new Room(place, "Salle de réunion 1", 20);
-        Equipment projector = new Equipment("Porjecteur", "Visuel");
-        Equipment whiteboard = new Equipment("Tableau", "Visuel");
-
-        room.addEquipment(projector);
-        room.addEquipment(whiteboard);
-
-        System.out.println("\n=== Structure ===");
-        System.out.println("Place: " + place.getName() + " à " + place.getAddress());
-        System.out.println("Salle: " + room.getName() + " (capacité: " + room.getCapacity() + ")");
-        System.out.println("Equipement:");
-        for (Equipment eq : room.getEquipment()) {
-            System.out.println("- " + eq.getName() + " (" + eq.getType() + ")");
-        }
     }
 }

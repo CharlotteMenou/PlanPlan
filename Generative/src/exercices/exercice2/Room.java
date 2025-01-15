@@ -1,29 +1,27 @@
 package exercices.exercice2;
 
 import java.util.ArrayList;
-import java.util.List;
 
-// Classe Room qui hérite de BaseRoom, implémente Bookable et a une composition avec Equipment
-class Room extends BaseRoom implements Bookable {
+public class Room {
     private Place place;
     private String name;
-    private List<Equipment> equipment;  // Composition
+    private int capacity;
 
-    public Room(Place place, String name, int capacity) {
-        super(capacity);
+    public ArrayList<String> getFenetre() {
+        return fenetre;
+    }
+
+    public void setFenetre(ArrayList<String> fenetre) {
+        this.fenetre = fenetre;
+    }
+
+    private ArrayList<String> fenetre;
+
+    public Room(Place place, String name, int capacity,ArrayList<String> fenetre) {
         this.place = place;
         this.name = name;
-        this.equipment = new ArrayList<>();
-        place.addRoom(this);  // Établit la relation bidirectionnelle
-    }
-
-    @Override
-    public void book() {
-        System.out.println("Room booked!");
-    }
-
-    public void addEquipment(Equipment eq) {
-        equipment.add(eq);
+        this.capacity = capacity;
+        this.fenetre = fenetre ;
     }
 
     public Place getPlace() {
@@ -34,7 +32,8 @@ class Room extends BaseRoom implements Bookable {
         return name;
     }
 
-    public List<Equipment> getEquipment() {
-        return equipment;
+    public int getCapacity() {
+        return capacity;
     }
+
 }
