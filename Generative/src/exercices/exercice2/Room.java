@@ -36,4 +36,6 @@ public class Room {
         return capacity;
     }
 
+    public void addEquipment(Equipment projector) {
+    }
 }
