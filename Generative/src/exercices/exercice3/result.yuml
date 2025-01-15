@@ -1,0 +1,12 @@
+
+// {type:class}
+[Room|-place:Place;-name:String;-equipment:List;|+getName():String;+addEquipment(Equipment):void;+getEquipment():List;+book():void;+getPlace():Place;]
+[Place|-name:String;-address:String;-rooms:List;|+getName():String;+getAddress():String;+addRoom(Room):void;+getRooms():List;]
+[BaseRoom|#capacity:int;|+getCapacity():int;]
+[Equipment|-name:String;-type:String;|+getName():String;+getType():String;]
+[≪IBookable≫;Bookable|+book():void;]
+[Room]place->[Place]
+[Room]^[BaseRoom]
+
+
+
