@@ -7,6 +7,7 @@
     <parfeur:A id="#10" value="5">
         <parfeur:A.theBs>
             <parfeur:B name="index" val="5"/>
+            <parfeur:B name="name" val="6"/>
         </parfeur:A.theBs>
     </parfeur:A>
 </Root>

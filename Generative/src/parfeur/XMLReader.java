@@ -33,7 +33,7 @@ public class XMLReader {
                 Element element = (Element) node;
 
                 if (element.getLocalName().equals("A")) {
-                    Object obj = processElement(element);
+                    Object obj = constructElement(element);
                     if (obj != null) {
                         results.add(obj);
                     }
@@ -43,7 +43,7 @@ public class XMLReader {
         return results;
     }
 
-    private Object processElement(Element element) throws Exception {
+    private Object constructElement(Element element) throws Exception {
         String className = element.getLocalName();
         Class<?> cls = Class.forName("parfeur." + className);
         Object instance = cls.getDeclaredConstructor().newInstance();
@@ -57,13 +57,13 @@ public class XMLReader {
         }
 
         if (className.equals("A")) {
-            processChildren(element, instance);
+            constructChildren(element, instance);
         }
 
         return instance;
     }
 
-    private void processChildren(Element aElement, Object aInstance) throws Exception {
+    private void constructChildren(Element aElement, Object aInstance) throws Exception {
         NodeList children = aElement.getChildNodes();
 
         for (int i = 0; i < children.getLength(); i++) {
@@ -73,13 +73,13 @@ public class XMLReader {
                 Element childElement = (Element) node;
 
                 if (childElement.getLocalName().equals("A.theBs")) {
-                    processTheBs(childElement, aInstance);
+                    constructTheBs(childElement, aInstance);
                 }
             }
         }
     }
 
-    private void processTheBs(Element theBsElement, Object aInstance) throws Exception {
+    private void constructTheBs(Element theBsElement, Object aInstance) throws Exception {
 
         Field theBsField = aInstance.getClass().getDeclaredField("theBs");
         theBsField.setAccessible(true);
@@ -95,7 +95,7 @@ public class XMLReader {
 
                 if (bElement.getLocalName().equals("B")) {
 
-                    Object bInstance = processElement(bElement);
+                    Object bInstance = constructElement(bElement);
                     if (bInstance != null) {
                         theBs.add(bInstance);
                     }
@@ -118,22 +118,23 @@ public class XMLReader {
             XMLReader reader = XMLReader.fromFile("src/parfeur/test.xml");
             List<Object> objects = reader.read();// Transforme les nœuds en objets.
 
-            int aCount = 0;
-            int bCount = 0;
+            int nbA = 0;
+            int nbB = 0;
+
+            System.out.println(objects);
 
             for (Object obj : objects) {
                 if (obj instanceof A) {
                     A a = (A) obj;
-                    String varName = "a" + (++aCount);
-                    System.out.println("\nA " + varName + " = new A();");
-                    System.out.println(varName + ".setId(\"" + a.getId() + "\");");
+                    String varName = "a" + (++nbA);
+                    System.out.println("\nA " + varName + " = new A(); \n"+varName+".setId(\""+a.getId()+"\");");
                     System.out.println(varName + ".setValue(\"" + a.getValue() + "\");");
 
                     for (B b : a.getTheBs()) {
-                        String bVarName = "b" + (++bCount);
+                        String bVarName = "b" + (++nbB);
                         System.out.println("\nB " + bVarName + " = new B();");
                         System.out.println(bVarName + ".setName(\"" + b.getName() + "\");");
-                        System.out.println(bVarName + ".setVal(\"" + b.getVal() + "\");");
+                        System.out.println(bVarName + ".setVal(" + b.getVal() + ");");
                         System.out.println(varName + ".getTheBs().add(" + bVarName + ");");
                     }
                 }
