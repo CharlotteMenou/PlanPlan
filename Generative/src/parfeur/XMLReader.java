@@ -7,11 +7,9 @@ import java.util.*;
 
 public class XMLReader {
     private Document doc;
-    private Map<String, Object> objectsById;
 
     public XMLReader(Document document) {
         this.doc = document;
-        this.objectsById = new HashMap<>();
     }
 
     public static XMLReader fromFile(String filePath) throws Exception {
@@ -117,8 +115,8 @@ public class XMLReader {
 
     public static void main(String[] args) {
         try {
-            XMLReader reader = XMLReader.fromFile("test.xml");
-            List<Object> objects = reader.read();
+            XMLReader reader = XMLReader.fromFile("src/parfeur/test.xml");
+            List<Object> objects = reader.read();// Transforme les nœuds en objets.
 
             int aCount = 0;
             int bCount = 0;
