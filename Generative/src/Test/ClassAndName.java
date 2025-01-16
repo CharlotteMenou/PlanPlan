@@ -4,6 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
+import static org.junit.Assert.assertTrue;
+
 public class ClassAndName {
 
 	// from https://javahowtodoit.wordpress.com/2014/09/09/java-lang-class-what-is-the-difference-between-class-getname-class-getcanonicalname-and-class-getsimplename/
