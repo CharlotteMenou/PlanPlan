@@ -6,3 +6,7 @@
 [≪IBookable≫;Bookable|+book():void;]
 [Room]place->[Place]
 [Room]^[BaseRoom]
+[Room]equipment->[Equipment]
+[Place]rooms->[Room]
+[BaseRoom]^[Room]
+[Equipment]^[Room]

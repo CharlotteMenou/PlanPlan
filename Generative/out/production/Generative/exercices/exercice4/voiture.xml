@@ -1,0 +1,8 @@
+<Root>
+    <Voiture marque="Renault" annee="2020">
+        <Voiture.options>
+            <Option nom="GPS" prix="500"/>
+            <Option nom="Clim" prix="800"/>
+        </Voiture.options>
+    </Voiture>
+</Root>
