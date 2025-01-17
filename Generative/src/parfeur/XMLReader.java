@@ -117,12 +117,12 @@ public class XMLReader {
         try {
             XMLReader reader = XMLReader.fromFile("src/parfeur/test.xml");
             List<Object> objects = reader.read();// Transforme les nœuds en objets.
-
             int nbA = 0;
             int nbB = 0;
-
+            String fileName = "parfeur";
             System.out.println(objects);
 
+            //affichage instance
             for (Object obj : objects) {
                 if (obj instanceof A) {
                     A a = (A) obj;
@@ -139,6 +139,24 @@ public class XMLReader {
                     }
                 }
             }
+
+            //Serialization
+            System.out.println("\n\n<Root xmlns:"+fileName+"=\"http://www.example.com\">");
+            for (Object obj : objects) {
+                if (obj instanceof A) {
+                    A a = (A) obj;
+                    System.out.println("    <"+fileName+":A id =\"" +a.getId()  + "\" value=\""+a.getValue()+"\">");
+                    if(!a.getTheBs().isEmpty()){
+                        System.out.println("        <"+fileName+":A.theBs>");
+                        for (B b : a.getTheBs()) {
+                            System.out.println("                <"+fileName+":B name =\"" +b.getName()+ "\" value=\""+b.getVal()+"\">");
+                        }
+                        System.out.println("        </"+fileName+":A.theBs>");
+                    }
+                    System.out.println("    </"+fileName+":A>");
+                }
+            }
+            System.out.println("</Root>");
         } catch (Exception e) {
             e.printStackTrace();
         }
